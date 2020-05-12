@@ -37,7 +37,7 @@ import saga from './saga';
 import messages from './messages';
 {{/if}}
 
-export function {{ properCase name }}() {
+export const {{ properCase name }} = () => {
   {{#if wantActionsAndReducer}}
   useInjectReducer({ key: '{{ camelCase name }}', reducer });
   {{/if}}
