@@ -11,7 +11,14 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import AppGrid from 'components/AppGrid';
 import makeSelectApp, { makeSelectGrid } from './selectors';
+
+/**
+ * Styles
+ */
+
+import { AppContainer } from './style';
 
 export const ApplicationPage = props => {
   const { grid } = props;
@@ -21,7 +28,9 @@ export const ApplicationPage = props => {
         <title>ApplicationPage</title>
         <meta name="description" content="Description of ApplicationPage" />
       </Helmet>
-      {grid.column}
+      <AppContainer>
+        <AppGrid {...grid} />
+      </AppContainer>
     </div>
   );
 };
