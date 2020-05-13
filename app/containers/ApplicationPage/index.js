@@ -19,6 +19,10 @@ import { addBlock } from './actions';
 
 export const ApplicationPage = props => {
   const { grid } = props;
+  /**
+   * actions
+   */
+  const { onAddBlock } = props;
   return (
     <div>
       <Helmet>
@@ -30,7 +34,20 @@ export const ApplicationPage = props => {
           <AppGrid {...grid} />
         </AppContainer>
         <AppControlContainer>
-          <Button>Add Block</Button>
+          <Button
+            onClick={() =>
+              onAddBlock({
+                position: {
+                  gridColumnStart: 1,
+                  gridColumnEnd: 2,
+                  gridRowStart: 2,
+                  gridRowEnd: 3,
+                },
+              })
+            }
+          >
+            Add Block
+          </Button>
         </AppControlContainer>
       </div>
     </div>
@@ -40,6 +57,7 @@ export const ApplicationPage = props => {
 ApplicationPage.propTypes = {
   // dispatch: PropTypes.func.isRequired,
   grid: PropTypes.any,
+  onAddBlock: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({

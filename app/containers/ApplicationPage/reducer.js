@@ -47,8 +47,25 @@ export const initialState = {
  * 2. block cannot overlap with another block
  */
 
+const isOverlappingBlocks = (blockA, blockB) => {
+  const isColumnOverlap =
+    (blockA.gridColumnStart < blockB.gridColumnEnd &&
+      blockA.gridColumnEnd > blockB.gridColumnStart) ||
+    (blockB.gridColumnStart < blockA.gridColumnEnd &&
+      blockB.gridColumnEnd > blockA.gridColumnStart);
+  const isRowOverlap =
+    (blockA.gridRowStart < blockB.gridRowEnd &&
+      blockA.gridRowEnd > blockB.gridRowStart) ||
+    (blockB.gridRowStart < blockA.gridRowEnd &&
+      blockB.gridRowEnd > blockA.gridRowStart);
+  console.log(`isColumnOverlap: ${isColumnOverlap}`);
+  console.log(`isRowOverlap: ${isRowOverlap}`);
+  return isColumnOverlap && isRowOverlap;
+};
 export const isValidBlock = ({ blockData, state }) => {
   if (!blockData.position) return false;
+  console.log(blockData);
+  console.log(state.blocks);
   if (
     blockData.position.gridColumnStart < 1 ||
     blockData.position.gridRowStart < 1 ||
@@ -57,17 +74,25 @@ export const isValidBlock = ({ blockData, state }) => {
   ) {
     return false;
   }
-  return !!blockData;
+  const overlappingBlock = state.blocks.find(b =>
+    isOverlappingBlocks(blockData.position, b.position),
+  );
+  return !overlappingBlock;
 };
 /* eslint-disable default-case, no-param-reassign */
 const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case ADD_BLOCK:
-        if (isValidBlock({ nlockData: action.blockData, state })) {
-          draft.id = '3';
-          draft.position = action.blockData.position;
-          draft.style = action.blockData.style;
+        if (isValidBlock({ blockData: action.blockData, state })) {
+          draft.blocks = [
+            ...draft.blocks,
+            {
+              id: '3',
+              position: action.blockData.position,
+              style: action.blockData.style,
+            },
+          ];
         }
         break;
     }
