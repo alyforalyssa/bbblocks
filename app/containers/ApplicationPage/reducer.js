@@ -39,14 +39,6 @@ export const initialState = {
   },
 };
 
-/**
- * @param blockData
- * @param blocks
- * return valid if we can insert block into current app grid.
- * 1. block must follow constrain of position/size
- * 2. block cannot overlap with another block
- */
-
 const isOverlappingBlocks = (blockA, blockB) => {
   const isColumnOverlap =
     (blockA.gridColumnStart < blockB.gridColumnEnd &&

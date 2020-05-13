@@ -26,6 +26,7 @@ export const AppGridContainer = styled.div`
 
 export const BlocksGrid = styled.div`
   display: grid;
+  z-index: 2;
   column-gap: ${props => props.columnGap || '16px'};
   row-gap: ${props => props.rowGap || '16px'};
   grid-template-columns: ${props =>

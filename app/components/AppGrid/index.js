@@ -37,23 +37,14 @@ const AppGrid = props => {
         blockWidth={blockWidth}
         blockHeight={blockHeight}
       >
-        {blocks.map(b => (
-          <BlockItemPositionContainer {...b.position}>
-            {b.id}
-          </BlockItemPositionContainer>
+        {blocks.map(block => (
+          <AppBlock block={block} key={block.id} actions={actions} />
         ))}
       </BlocksGrid>
     </AppGridContainer>
   );
 };
 
-// const AppBlock = (props) => {
-//   return (
-//     <BlockItemPositionContainer {...b.position}>
-//       {b.id}
-//     </BlockItemPositionContainer>
-//   );
-// }
 AppGrid.propTypes = {
   row: PropTypes.number,
   column: PropTypes.number,
@@ -63,4 +54,26 @@ AppGrid.propTypes = {
   }),
 };
 
+const AppBlock = props => {
+  const { block, actions } = props;
+  console.log(actions);
+  return (
+    <BlockItemPositionContainer
+      {...block.position}
+      onClick={() => {
+        console.log(block);
+        actions.onSelectBlock(block);
+      }}
+    >
+      {block.id}
+    </BlockItemPositionContainer>
+  );
+};
+
+AppBlock.propTypes = {
+  block: PropTypes.any.isRequired,
+  actions: PropTypes.shape({
+    onSelectBlock: PropTypes.func.isRequired,
+  }),
+};
 export default AppGrid;

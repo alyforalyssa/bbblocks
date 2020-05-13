@@ -12,6 +12,8 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import { Button } from 'style';
+import { makeSelectUserSelected } from 'containers/User/selectors';
+import { selectBlock } from 'containers/User/actions';
 import AppGrid from 'components/AppGrid';
 import { AppContainer, AppControlContainer } from './style';
 import makeSelectApp, { makeSelectGrid } from './selectors';
@@ -22,7 +24,10 @@ export const ApplicationPage = props => {
   /**
    * actions
    */
-  const { onAddBlock } = props;
+  const { onAddBlock, onSelectBlock, userSelect } = props;
+  const appGridActions = {
+    onSelectBlock,
+  };
   return (
     <div>
       <Helmet>
@@ -31,7 +36,7 @@ export const ApplicationPage = props => {
       </Helmet>
       <div style={{ display: 'flex' }}>
         <AppContainer>
-          <AppGrid {...grid} />
+          <AppGrid {...grid} actions={appGridActions} />
         </AppContainer>
         <AppControlContainer>
           <Button
@@ -48,6 +53,7 @@ export const ApplicationPage = props => {
           >
             Add Block
           </Button>
+          {userSelect.block.toString()}
         </AppControlContainer>
       </div>
     </div>
@@ -57,17 +63,21 @@ export const ApplicationPage = props => {
 ApplicationPage.propTypes = {
   // dispatch: PropTypes.func.isRequired,
   grid: PropTypes.any,
+  userSelect: PropTypes.any,
   onAddBlock: PropTypes.func,
+  onSelectBlock: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   applicationPage: makeSelectApp(),
   grid: makeSelectGrid(),
+  userSelect: makeSelectUserSelected(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
     onAddBlock: data => dispatch(addBlock(data)),
+    onSelectBlock: block => dispatch(selectBlock(block)),
   };
 }
 
