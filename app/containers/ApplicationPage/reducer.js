@@ -5,7 +5,7 @@
  */
 import produce from 'immer';
 
-import { DEFAULT_ACTION } from './constants';
+import { ADD_BLOCK } from './constants';
 
 export const initialState = {
   row: 4,
@@ -39,20 +39,36 @@ export const initialState = {
   },
 };
 
-export const isValidBlock = block => {
-  /**
-   * @param block
-   * return valid if we can insert block into current app grid.
-   * 1. block must follow constrain of position/size
-   * 2. block cannot overlap with another block
-   */
-  return !!block;
+/**
+ * @param blockData
+ * @param blocks
+ * return valid if we can insert block into current app grid.
+ * 1. block must follow constrain of position/size
+ * 2. block cannot overlap with another block
+ */
+
+export const isValidBlock = ({ blockData, state }) => {
+  if (!blockData.position) return false;
+  if (
+    blockData.position.gridColumnStart < 1 ||
+    blockData.position.gridRowStart < 1 ||
+    blockData.position.gridColumnEnd > state.column + 1 ||
+    blockData.position.gridRowEnd > state.row + 1
+  ) {
+    return false;
+  }
+  return !!blockData;
 };
 /* eslint-disable default-case, no-param-reassign */
 const appReducer = (state = initialState, action) =>
-  produce(state, (/* draft */) => {
+  produce(state, draft => {
     switch (action.type) {
-      case DEFAULT_ACTION:
+      case ADD_BLOCK:
+        if (isValidBlock({ nlockData: action.blockData, state })) {
+          draft.id = '3';
+          draft.position = action.blockData.position;
+          draft.style = action.blockData.style;
+        }
         break;
     }
   });

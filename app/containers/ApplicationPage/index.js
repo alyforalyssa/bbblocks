@@ -11,15 +11,11 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import AppGrid from 'components/AppGrid';
 import { Button } from 'style';
-import makeSelectApp, { makeSelectGrid } from './selectors';
-
-/**
- * Styles
- */
-
+import AppGrid from 'components/AppGrid';
 import { AppContainer, AppControlContainer } from './style';
+import makeSelectApp, { makeSelectGrid } from './selectors';
+import { addBlock } from './actions';
 
 export const ApplicationPage = props => {
   const { grid } = props;
@@ -51,9 +47,9 @@ const mapStateToProps = createStructuredSelector({
   grid: makeSelectGrid(),
 });
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    onAddBlock: data => dispatch(addBlock(data)),
   };
 }
 

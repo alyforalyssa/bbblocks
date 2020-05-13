@@ -4,6 +4,6 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/ApplicationPage/DEFAULT_ACTION';
+export const ADD_BLOCK = 'app/ApplicationPage/ADD_BLOCK';
 
 export const reducerKey = 'app';
