@@ -12,13 +12,14 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import AppGrid from 'components/AppGrid';
+import { Button } from 'style';
 import makeSelectApp, { makeSelectGrid } from './selectors';
 
 /**
  * Styles
  */
 
-import { AppContainer } from './style';
+import { AppContainer, AppControlContainer } from './style';
 
 export const ApplicationPage = props => {
   const { grid } = props;
@@ -28,9 +29,14 @@ export const ApplicationPage = props => {
         <title>ApplicationPage</title>
         <meta name="description" content="Description of ApplicationPage" />
       </Helmet>
-      <AppContainer>
-        <AppGrid {...grid} />
-      </AppContainer>
+      <div style={{ display: 'flex' }}>
+        <AppContainer>
+          <AppGrid {...grid} />
+        </AppContainer>
+        <AppControlContainer>
+          <Button>Add Block</Button>
+        </AppControlContainer>
+      </div>
     </div>
   );
 };
