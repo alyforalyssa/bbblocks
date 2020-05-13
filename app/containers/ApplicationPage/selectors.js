@@ -16,6 +16,7 @@ const makeSelectGrid = () =>
     appState => ({
       row: appState.row,
       column: appState.column,
+      blocks: appState.blocks,
     }),
   );
 

@@ -14,21 +14,29 @@ export const initialState = {
     {
       id: '1',
       position: {
-        col: 0,
-        row: 0,
-      },
-      size: {
-        col: 1,
-        row: 1,
+        gridColumnStart: 0,
+        gridColumnEnd: 1,
+        gridRowStart: 0,
+        gridRowEnd: 1,
       },
       content: {},
-      style: {
-        rowGutter: 16,
-        columnGutter: 16,
-        backgroundColor: '#FFFFF',
+    },
+    {
+      id: '2',
+      position: {
+        gridColumnStart: 1,
+        gridColumnEnd: 3,
+        gridRowStart: 0,
+        gridRowEnd: 1,
       },
+      content: {},
     },
   ],
+  style: {
+    rowGutter: 16,
+    columnGutter: 16,
+    backgroundColor: '#FFFFF',
+  },
 };
 
 export const isValidBlock = block => {
