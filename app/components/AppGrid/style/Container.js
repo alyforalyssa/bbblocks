@@ -4,7 +4,7 @@ export const AppGridItemContainer = styled.div`
   width: ${props => props.width || '100%'};
   height: ${props => props.height || '100%'};
   background-color: ${props => props.backgroundColor || '#eaedf1'};
-  border-radius: ${props => props.borderRadius || '16px'};
+  border-radius: ${props => props.borderRadius || '20px'};
   margin: ${props => props.margin || '16px'};
 `;
 
