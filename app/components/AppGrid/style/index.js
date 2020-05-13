@@ -3,6 +3,8 @@ import {
   AppRowContainer,
   AppGridContainer,
   AppGridItemEmptyContainer,
+  BlocksGrid,
+  BlocksGridGuidelines,
 } from './Container';
 
 export {
@@ -10,4 +12,6 @@ export {
   AppRowContainer,
   AppGridContainer,
   AppGridItemEmptyContainer,
+  BlocksGridGuidelines,
+  BlocksGrid,
 };

@@ -15,6 +15,8 @@ import {
   AppRowContainer,
   AppGridContainer,
   AppGridItemEmptyContainer,
+  BlocksGridGuidelines,
+  BlocksGrid,
 } from './style';
 
 // in item check if the items position is occupied by a block. if it is render nothing (make place for the block)
@@ -28,9 +30,6 @@ const makeArray = number => {
 };
 const isBlockOccupied = ({ xPosition, yPosition, blocks }) => {
   if (!blocks) return false;
-  console.log(blocks);
-  console.log(xPosition);
-  console.log(yPosition);
   const block = blocks.find(b => {
     const isSameColumn =
       b.position.gridColumnStart <= yPosition &&
@@ -59,11 +58,8 @@ AppGridItem.propTypes = {
   yPosition: PropTypes.number,
 };
 
-const rowHeight = '300px';
-
 const AppRow = props => {
-  const { column, blocks, rowIndex } = props;
-  const itemWidth = `${100 / column}%`;
+  const { column, blocks, rowIndex, blockWidth, blockHeight } = props;
 
   return (
     <AppRowContainer>
@@ -73,8 +69,8 @@ const AppRow = props => {
           xPosition={rowIndex}
           yPosition={c}
           blocks={blocks}
-          width={itemWidth}
-          height={rowHeight}
+          width={blockWidth}
+          height={blockHeight}
         />
       ))}
     </AppRowContainer>
@@ -84,20 +80,39 @@ AppRow.propTypes = {
   column: PropTypes.number,
   blocks: PropTypes.array,
   rowIndex: PropTypes.number,
+  blockWidth: PropTypes.string,
+  blockHeight: PropTypes.string,
 };
 
 const AppGrid = props => {
   const { row, column, blocks } = props;
+  // to change
+  const blockHeight = '300px';
+  const blockWidth = `${100 / column}%`;
   return (
     <AppGridContainer>
-      {makeArray(row).map(r => (
-        <AppRow
-          key={r.toString()}
-          rowIndex={r}
-          column={column}
-          blocks={blocks}
-        />
-      ))}
+      {/* transparent grid line in the back */}
+      <BlocksGridGuidelines>
+        {makeArray(row).map(r => (
+          <AppRow
+            key={r.toString()}
+            rowIndex={r}
+            column={column}
+            blockWidth={blockWidth}
+            blockHeight={blockHeight}
+            blocks={blocks}
+          />
+        ))}
+      </BlocksGridGuidelines>
+      {/* the actual grid of blocks */}
+      <BlocksGrid
+        row={row}
+        column={column}
+        blockWidth={blockWidth}
+        blockHeight={blockHeight}
+      >
+        <div />
+      </BlocksGrid>
     </AppGridContainer>
   );
 };
