@@ -14,20 +14,20 @@ export const initialState = {
     {
       id: '1',
       position: {
-        gridColumnStart: 0,
-        gridColumnEnd: 1,
-        gridRowStart: 0,
-        gridRowEnd: 1,
+        gridColumnStart: 1,
+        gridColumnEnd: 2,
+        gridRowStart: 1,
+        gridRowEnd: 2,
       },
       content: {},
     },
     {
       id: '2',
       position: {
-        gridColumnStart: 1,
-        gridColumnEnd: 3,
-        gridRowStart: 0,
-        gridRowEnd: 1,
+        gridColumnStart: 2,
+        gridColumnEnd: 4,
+        gridRowStart: 1,
+        gridRowEnd: 2,
       },
       content: {},
     },

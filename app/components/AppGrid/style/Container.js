@@ -40,3 +40,10 @@ export const BlocksGridGuidelines = styled.div`
   flex-direction: column;
   position: absolute;
 `;
+
+export const BlockItemPositionContainer = styled.div`
+  grid-column-start: ${props => props.gridColumnStart};
+  grid-column-end: ${props => props.gridColumnEnd};
+  grid-row-start: ${props => props.gridrowStart};
+  grid-row-end: ${props => props.gridrowEnd};
+`;

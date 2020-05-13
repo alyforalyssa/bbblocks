@@ -5,6 +5,7 @@ import {
   AppGridItemEmptyContainer,
   BlocksGrid,
   BlocksGridGuidelines,
+  BlockItemPositionContainer,
 } from './Container';
 
 export {
@@ -14,4 +15,5 @@ export {
   AppGridItemEmptyContainer,
   BlocksGridGuidelines,
   BlocksGrid,
+  BlockItemPositionContainer,
 };

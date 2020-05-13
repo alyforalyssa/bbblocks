@@ -17,6 +17,7 @@ import {
   AppGridItemEmptyContainer,
   BlocksGridGuidelines,
   BlocksGrid,
+  BlockItemPositionContainer,
 } from './style';
 
 // in item check if the items position is occupied by a block. if it is render nothing (make place for the block)
@@ -66,8 +67,8 @@ const AppRow = props => {
       {makeArray(column).map(c => (
         <AppGridItem
           key={c.toString()}
-          xPosition={rowIndex}
-          yPosition={c}
+          xPosition={rowIndex + 1}
+          yPosition={c + 1}
           blocks={blocks}
           width={blockWidth}
           height={blockHeight}
@@ -111,7 +112,11 @@ const AppGrid = props => {
         blockWidth={blockWidth}
         blockHeight={blockHeight}
       >
-        <div />
+        {blocks.map(b => (
+          <BlockItemPositionContainer {...b.position}>
+            {b.id}
+          </BlockItemPositionContainer>
+        ))}
       </BlocksGrid>
     </AppGridContainer>
   );
