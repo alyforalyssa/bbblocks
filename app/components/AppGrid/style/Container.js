@@ -47,6 +47,8 @@ export const BlockItemPositionContainer = styled.div`
   grid-column-end: ${props => props.gridColumnEnd};
   grid-row-start: ${props => props.gridrowStart};
   grid-row-end: ${props => props.gridrowEnd};
+  background-color: ${props => props.backgroundColor};
+  border-radius: ${props => props.borderRadius || '20px'};
 `;
 
 export const AppGridControllerContainer = styled.div`

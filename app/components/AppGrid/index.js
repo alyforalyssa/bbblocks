@@ -56,12 +56,11 @@ AppGrid.propTypes = {
 
 const AppBlock = props => {
   const { block, actions } = props;
-  console.log(actions);
   return (
     <BlockItemPositionContainer
       {...block.position}
+      backgroundColor={block.style.backgroundColor}
       onClick={() => {
-        console.log(block);
         actions.onSelectBlock(block);
       }}
     >
