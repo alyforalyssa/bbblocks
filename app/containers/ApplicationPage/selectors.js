@@ -20,6 +20,18 @@ const makeSelectGrid = () =>
     }),
   );
 
+const makeSelectBlocksArray = () =>
+  createSelector(
+    SelectApp,
+    appState => Object.keys(appState.blocks).map(id => appState.blocks[id]),
+  );
+
+const makeSelectBlock = blockId => {
+  createSelector(
+    SelectApp,
+    appState => appState.blocks[blockId],
+  );
+};
 /**
  * Default selector used by ApplicationPage
  */
@@ -31,4 +43,4 @@ const makeSelectApplicationPage = () =>
   );
 
 export default makeSelectApplicationPage;
-export { makeSelectGrid, SelectApp };
+export { makeSelectGrid, SelectApp, makeSelectBlocksArray, makeSelectBlock };

@@ -9,14 +9,10 @@ export const isOverlappingBlocks = (blockA, blockB) => {
       blockA.gridRowEnd > blockB.gridRowStart) ||
     (blockB.gridRowStart < blockA.gridRowEnd &&
       blockB.gridRowEnd > blockA.gridRowStart);
-  console.log(`isColumnOverlap: ${isColumnOverlap}`);
-  console.log(`isRowOverlap: ${isRowOverlap}`);
   return isColumnOverlap && isRowOverlap;
 };
 export const isValidBlock = ({ blockData, state }) => {
   if (!blockData.position) return false;
-  console.log(blockData);
-  console.log(state.blocks);
   if (
     blockData.position.gridColumnStart < 1 ||
     blockData.position.gridRowStart < 1 ||
@@ -25,8 +21,8 @@ export const isValidBlock = ({ blockData, state }) => {
   ) {
     return false;
   }
-  const overlappingBlock = state.blocks.find(b =>
-    isOverlappingBlocks(blockData.position, b.position),
+  const overlappingBlock = Object.keys(state.blocks).find(id =>
+    isOverlappingBlocks(blockData.position, state.blocks[id].position),
   );
   return !overlappingBlock;
 };

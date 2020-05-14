@@ -4,6 +4,7 @@
  *
  */
 import produce from 'immer';
+import { fabric } from 'fabric';
 
 import { ADD_BLOCK, CHANGE_BLOCK_STYLE } from './constants';
 import { isValidBlock } from './utils';
@@ -11,8 +12,8 @@ import { isValidBlock } from './utils';
 export const initialState = {
   row: 4,
   column: 3,
-  blocks: [
-    {
+  blocks: {
+    '1': {
       id: '1',
       position: {
         gridColumnStart: 1,
@@ -20,10 +21,10 @@ export const initialState = {
         gridRowStart: 1,
         gridRowEnd: 2,
       },
-      content: {},
+      content: new fabric.Canvas('1'),
       style: {},
     },
-    {
+    '2': {
       id: '2',
       position: {
         gridColumnStart: 2,
@@ -31,10 +32,10 @@ export const initialState = {
         gridRowStart: 1,
         gridRowEnd: 2,
       },
-      content: {},
+      content: new fabric.Canvas('2'),
       style: {},
     },
-  ],
+  },
   style: {
     rowGutter: 16,
     columnGutter: 16,
@@ -48,29 +49,24 @@ const appReducer = (state = initialState, action) =>
     switch (action.type) {
       case ADD_BLOCK:
         if (isValidBlock({ blockData: action.blockData, state })) {
-          draft.blocks = [
+          draft.blocks = {
             ...state.blocks,
-            {
+            '3': {
               id: '3',
               position: action.blockData.position,
               style: action.blockData.style || {},
             },
-          ];
+          };
         }
         break;
       case CHANGE_BLOCK_STYLE:
-        draft.blocks = state.blocks.map(block => {
-          if (block.id === action.block.id) {
-            return {
-              ...block,
-              style: {
-                ...block.style,
-                ...action.styleProps,
-              },
-            };
-          }
-          return block;
-        });
+        draft.blocks[action.block.id] = {
+          ...draft.blocks[action.block.id],
+          style: {
+            ...draft.blocks[action.block.id].style,
+            ...action.styleProps,
+          },
+        };
         break;
     }
   });

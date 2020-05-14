@@ -15,11 +15,14 @@ import { makeSelectUserSelected } from 'containers/User/selectors';
 import { selectBlock } from 'containers/User/actions';
 import AppGrid, { AppGridController } from 'components/AppGrid';
 import { AppContainer, AppControlContainer } from './style';
-import makeSelectApp, { makeSelectGrid } from './selectors';
+import makeSelectApp, {
+  makeSelectGrid,
+  makeSelectBlocksArray,
+} from './selectors';
 import { addBlock, changeBlockStyle } from './actions';
 
 export const ApplicationPage = props => {
-  const { grid } = props;
+  const { grid, blocks } = props;
   /**
    * actions
    */
@@ -39,7 +42,7 @@ export const ApplicationPage = props => {
       </Helmet>
       <div style={{ display: 'flex' }}>
         <AppContainer>
-          <AppGrid {...grid} actions={appGridActions} />
+          <AppGrid {...grid} blocks={blocks} actions={appGridActions} />
         </AppContainer>
         <AppControlContainer>
           <AppGridController
@@ -59,11 +62,13 @@ ApplicationPage.propTypes = {
   onAddBlock: PropTypes.func,
   onSelectBlock: PropTypes.func,
   onBlockStyleChange: PropTypes.func,
+  blocks: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({
   applicationPage: makeSelectApp(),
   grid: makeSelectGrid(),
+  blocks: makeSelectBlocksArray(),
   userSelect: makeSelectUserSelected(),
 });
 
