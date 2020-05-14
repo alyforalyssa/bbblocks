@@ -20,6 +20,7 @@ export const initialState = {
         gridRowEnd: 2,
       },
       content: {},
+      style: {},
     },
     {
       id: '2',
@@ -30,6 +31,7 @@ export const initialState = {
         gridRowEnd: 2,
       },
       content: {},
+      style: {},
     },
   ],
   style: {
@@ -82,7 +84,7 @@ const appReducer = (state = initialState, action) =>
             {
               id: '3',
               position: action.blockData.position,
-              style: action.blockData.style,
+              style: action.blockData.style || {},
             },
           ];
         }

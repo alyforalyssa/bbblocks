@@ -11,10 +11,9 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import { Button } from 'style';
 import { makeSelectUserSelected } from 'containers/User/selectors';
 import { selectBlock } from 'containers/User/actions';
-import AppGrid from 'components/AppGrid';
+import AppGrid, { AppGridController } from 'components/AppGrid';
 import { AppContainer, AppControlContainer } from './style';
 import makeSelectApp, { makeSelectGrid } from './selectors';
 import { addBlock } from './actions';
@@ -28,6 +27,9 @@ export const ApplicationPage = props => {
   const appGridActions = {
     onSelectBlock,
   };
+  const appGridControllerActions = {
+    onAddBlock,
+  };
   return (
     <div>
       <Helmet>
@@ -39,21 +41,10 @@ export const ApplicationPage = props => {
           <AppGrid {...grid} actions={appGridActions} />
         </AppContainer>
         <AppControlContainer>
-          <Button
-            onClick={() =>
-              onAddBlock({
-                position: {
-                  gridColumnStart: 1,
-                  gridColumnEnd: 2,
-                  gridRowStart: 2,
-                  gridRowEnd: 3,
-                },
-              })
-            }
-          >
-            Add Block
-          </Button>
-          {userSelect.block.toString()}
+          <AppGridController
+            actions={appGridControllerActions}
+            userSelect={userSelect}
+          />
         </AppControlContainer>
       </div>
     </div>
