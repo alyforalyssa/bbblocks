@@ -48,3 +48,13 @@ export const BlockItemPositionContainer = styled.div`
   grid-row-start: ${props => props.gridrowStart};
   grid-row-end: ${props => props.gridrowEnd};
 `;
+
+export const AppGridControllerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+export const AppGridBlockStyleControllerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

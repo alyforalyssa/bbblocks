@@ -6,6 +6,8 @@ import {
   BlocksGrid,
   BlocksGridGuidelines,
   BlockItemPositionContainer,
+  AppGridControllerContainer,
+  AppGridBlockStyleControllerContainer,
 } from './Container';
 
 export {
@@ -16,4 +18,6 @@ export {
   BlocksGridGuidelines,
   BlocksGrid,
   BlockItemPositionContainer,
+  AppGridControllerContainer,
+  AppGridBlockStyleControllerContainer,
 };

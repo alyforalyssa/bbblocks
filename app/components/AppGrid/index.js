@@ -13,7 +13,7 @@ import {
   BlockItemPositionContainer,
 } from './style';
 import AppGridGuidelines from './AppGridGuidelines';
-
+import AppGridController from './AppGridController';
 const AppGrid = props => {
   const { row, column, blocks, actions } = props;
   // to change
@@ -77,3 +77,4 @@ AppBlock.propTypes = {
   }),
 };
 export default AppGrid;
+export { AppGridController };
