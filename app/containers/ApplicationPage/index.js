@@ -16,19 +16,20 @@ import { selectBlock } from 'containers/User/actions';
 import AppGrid, { AppGridController } from 'components/AppGrid';
 import { AppContainer, AppControlContainer } from './style';
 import makeSelectApp, { makeSelectGrid } from './selectors';
-import { addBlock } from './actions';
+import { addBlock, changeBlockStyle } from './actions';
 
 export const ApplicationPage = props => {
   const { grid } = props;
   /**
    * actions
    */
-  const { onAddBlock, onSelectBlock, userSelect } = props;
+  const { onAddBlock, onSelectBlock, onBlockStyleChange, userSelect } = props;
   const appGridActions = {
     onSelectBlock,
   };
   const appGridControllerActions = {
     onAddBlock,
+    onBlockStyleChange,
   };
   return (
     <div>
@@ -57,6 +58,7 @@ ApplicationPage.propTypes = {
   userSelect: PropTypes.any,
   onAddBlock: PropTypes.func,
   onSelectBlock: PropTypes.func,
+  onBlockStyleChange: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -69,6 +71,8 @@ export function mapDispatchToProps(dispatch) {
   return {
     onAddBlock: data => dispatch(addBlock(data)),
     onSelectBlock: block => dispatch(selectBlock(block)),
+    onBlockStyleChange: (block, state) =>
+      dispatch(changeBlockStyle(block, { [state.id]: state.value })),
   };
 }
 

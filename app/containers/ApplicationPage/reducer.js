@@ -5,7 +5,8 @@
  */
 import produce from 'immer';
 
-import { ADD_BLOCK } from './constants';
+import { ADD_BLOCK, CHANGE_BLOCK_STYLE } from './constants';
+import { isValidBlock } from './utils';
 
 export const initialState = {
   row: 4,
@@ -41,38 +42,6 @@ export const initialState = {
   },
 };
 
-const isOverlappingBlocks = (blockA, blockB) => {
-  const isColumnOverlap =
-    (blockA.gridColumnStart < blockB.gridColumnEnd &&
-      blockA.gridColumnEnd > blockB.gridColumnStart) ||
-    (blockB.gridColumnStart < blockA.gridColumnEnd &&
-      blockB.gridColumnEnd > blockA.gridColumnStart);
-  const isRowOverlap =
-    (blockA.gridRowStart < blockB.gridRowEnd &&
-      blockA.gridRowEnd > blockB.gridRowStart) ||
-    (blockB.gridRowStart < blockA.gridRowEnd &&
-      blockB.gridRowEnd > blockA.gridRowStart);
-  console.log(`isColumnOverlap: ${isColumnOverlap}`);
-  console.log(`isRowOverlap: ${isRowOverlap}`);
-  return isColumnOverlap && isRowOverlap;
-};
-export const isValidBlock = ({ blockData, state }) => {
-  if (!blockData.position) return false;
-  console.log(blockData);
-  console.log(state.blocks);
-  if (
-    blockData.position.gridColumnStart < 1 ||
-    blockData.position.gridRowStart < 1 ||
-    blockData.position.gridColumnEnd > state.column + 1 ||
-    blockData.position.gridRowEnd > state.row + 1
-  ) {
-    return false;
-  }
-  const overlappingBlock = state.blocks.find(b =>
-    isOverlappingBlocks(blockData.position, b.position),
-  );
-  return !overlappingBlock;
-};
 /* eslint-disable default-case, no-param-reassign */
 const appReducer = (state = initialState, action) =>
   produce(state, draft => {
@@ -80,7 +49,7 @@ const appReducer = (state = initialState, action) =>
       case ADD_BLOCK:
         if (isValidBlock({ blockData: action.blockData, state })) {
           draft.blocks = [
-            ...draft.blocks,
+            ...state.blocks,
             {
               id: '3',
               position: action.blockData.position,
@@ -88,6 +57,20 @@ const appReducer = (state = initialState, action) =>
             },
           ];
         }
+        break;
+      case CHANGE_BLOCK_STYLE:
+        draft.blocks = state.blocks.map(block => {
+          if (block.id === action.block.id) {
+            return {
+              ...block,
+              style: {
+                ...block.style,
+                ...action.styleProps,
+              },
+            };
+          }
+          return block;
+        });
         break;
     }
   });
