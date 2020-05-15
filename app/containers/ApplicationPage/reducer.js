@@ -6,7 +6,12 @@
 import produce from 'immer';
 import { fabric } from 'fabric';
 
-import { ADD_BLOCK, CHANGE_BLOCK_STYLE } from './constants';
+import {
+  ADD_BLOCK,
+  CHANGE_BLOCK_STYLE,
+  ADD_SUBBLOCK,
+  INITIALIZE_BLOCK_CONTENT,
+} from './constants';
 import { isValidBlock } from './utils';
 
 export const initialState = {
@@ -21,7 +26,9 @@ export const initialState = {
         gridRowStart: 1,
         gridRowEnd: 2,
       },
-      content: new fabric.Canvas('1'),
+      // content should be the subblocks of canvas, stored in json
+      content: null,
+      canvas: null,
       style: {},
     },
     '2': {
@@ -32,8 +39,13 @@ export const initialState = {
         gridRowStart: 1,
         gridRowEnd: 2,
       },
-      content: new fabric.Canvas('2'),
-      style: {},
+      content: null,
+      canvas: null,
+      // style applied to blocks
+      style: {
+        backgroundColor: 'red',
+        borderRadius: 20,
+      },
     },
   },
   style: {
@@ -59,7 +71,24 @@ const appReducer = (state = initialState, action) =>
           };
         }
         break;
-      case CHANGE_BLOCK_STYLE:
+      case ADD_SUBBLOCK: {
+        const block = state.blocks[action.block.id];
+        const subBlock = new fabric.IText(action.subBlockProps.text, {
+          ...action.subBlockProps.options,
+        });
+        block.canvas.add(subBlock);
+        block.canvas.setActiveObject(subBlock);
+        block.canvas.renderAll();
+        break;
+      }
+      case CHANGE_BLOCK_STYLE: {
+        /**
+         * @TODO only accept certain keys? kinda dangerous lmao
+         */
+        // Object.keys(action.styleProps).forEach(key => {
+        //   draft.blocks[action.block.id].canvas.set(key, action.styleProps[key]);
+        // });
+        // draft.blocks[action.block.id].canvas.renderAll();
         draft.blocks[action.block.id] = {
           ...draft.blocks[action.block.id],
           style: {
@@ -68,6 +97,17 @@ const appReducer = (state = initialState, action) =>
           },
         };
         break;
+      }
+      case INITIALIZE_BLOCK_CONTENT: {
+        if (action.block.content) {
+          // initialize canvas from json object
+        } else {
+          draft.blocks[action.block.id].canvas = new fabric.Canvas(
+            action.block.id,
+          );
+        }
+        break;
+      }
     }
   });
 

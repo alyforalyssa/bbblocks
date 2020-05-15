@@ -19,20 +19,33 @@ import makeSelectApp, {
   makeSelectGrid,
   makeSelectBlocksArray,
 } from './selectors';
-import { addBlock, changeBlockStyle } from './actions';
+import {
+  addBlock,
+  changeBlockStyle,
+  addSubBlock,
+  initializeBlockContent,
+} from './actions';
 
 export const ApplicationPage = props => {
-  const { grid, blocks } = props;
+  const { grid, blocks, userSelect } = props;
   /**
    * actions
    */
-  const { onAddBlock, onSelectBlock, onBlockStyleChange, userSelect } = props;
+  const {
+    onAddBlock,
+    onSelectBlock,
+    onAddSubBlock,
+    onBlockStyleChange,
+    onInitializeBlockContent,
+  } = props;
   const appGridActions = {
     onSelectBlock,
+    onInitializeBlockContent,
   };
   const appGridControllerActions = {
     onAddBlock,
     onBlockStyleChange,
+    onAddSubBlock,
   };
   return (
     <div>
@@ -62,6 +75,8 @@ ApplicationPage.propTypes = {
   onAddBlock: PropTypes.func,
   onSelectBlock: PropTypes.func,
   onBlockStyleChange: PropTypes.func,
+  onAddSubBlock: PropTypes.func,
+  onInitializeBlockContent: PropTypes.func,
   blocks: PropTypes.array,
 };
 
@@ -76,8 +91,11 @@ export function mapDispatchToProps(dispatch) {
   return {
     onAddBlock: data => dispatch(addBlock(data)),
     onSelectBlock: block => dispatch(selectBlock(block)),
+    onAddSubBlock: (block, subBlockType, subBlockProps) =>
+      dispatch(addSubBlock(block, subBlockType, subBlockProps)),
     onBlockStyleChange: (block, state) =>
       dispatch(changeBlockStyle(block, { [state.id]: state.value })),
+    onInitializeBlockContent: block => dispatch(initializeBlockContent(block)),
   };
 }
 

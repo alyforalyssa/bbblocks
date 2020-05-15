@@ -4,7 +4,12 @@
  *
  */
 
-import { ADD_BLOCK, CHANGE_BLOCK_STYLE } from './constants';
+import {
+  ADD_BLOCK,
+  CHANGE_BLOCK_STYLE,
+  ADD_SUBBLOCK,
+  INITIALIZE_BLOCK_CONTENT,
+} from './constants';
 
 /**
  * Add a custom block to blocks array
@@ -33,5 +38,30 @@ export function changeBlockStyle(block, styleProps) {
     type: CHANGE_BLOCK_STYLE,
     block,
     styleProps,
+  };
+}
+
+/**
+ * Add a subblock to existing block
+ *
+ * @param {object} block The block to add subblock to
+ * @param {string} subBlockType The subblock type to add
+ * @param {object} subBlockProps custom props of the subblock
+ *
+ * @return {object} An action object with a type of ADD_SUBBLOCK
+ */
+export function addSubBlock(block, subBlockType, subBlockProps) {
+  return {
+    type: ADD_SUBBLOCK,
+    block,
+    subBlockType,
+    subBlockProps,
+  };
+}
+
+export function initializeBlockContent(block) {
+  return {
+    type: INITIALIZE_BLOCK_CONTENT,
+    block,
   };
 }
