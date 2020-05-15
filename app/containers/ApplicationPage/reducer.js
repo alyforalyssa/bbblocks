@@ -55,6 +55,16 @@ export const initialState = {
   },
 };
 
+const handleCanvasLayerToObject = toObject => {
+  // add id and custom_type to object
+  return function() {
+    return fabric.util.object.extend(toObject.call(this), {
+      id: this.id,
+      custom_type: this.custom_type,
+    });
+  };
+};
+
 /* eslint-disable default-case, no-param-reassign */
 const appReducer = (state = initialState, action) =>
   produce(state, draft => {
@@ -72,13 +82,13 @@ const appReducer = (state = initialState, action) =>
         }
         break;
       case ADD_SUBBLOCK: {
-        const block = state.blocks[action.block.id];
         const subBlock = new fabric.IText(action.subBlockProps.text, {
           ...action.subBlockProps.options,
         });
-        block.canvas.add(subBlock);
-        block.canvas.setActiveObject(subBlock);
-        block.canvas.renderAll();
+        subBlock.toObject = handleCanvasLayerToObject(subBlock.toObject);
+        draft.blocks[action.block.id].canvas.add(subBlock);
+        draft.blocks[action.block.id].canvas.setActiveObject(subBlock);
+        draft.blocks[action.block.id].canvas.renderAll();
         break;
       }
       case CHANGE_BLOCK_STYLE: {
@@ -89,12 +99,9 @@ const appReducer = (state = initialState, action) =>
         //   draft.blocks[action.block.id].canvas.set(key, action.styleProps[key]);
         // });
         // draft.blocks[action.block.id].canvas.renderAll();
-        draft.blocks[action.block.id] = {
-          ...draft.blocks[action.block.id],
-          style: {
-            ...draft.blocks[action.block.id].style,
-            ...action.styleProps,
-          },
+        draft.blocks[action.block.id].style = {
+          ...state.blocks[action.block.id].style,
+          ...action.styleProps,
         };
         break;
       }

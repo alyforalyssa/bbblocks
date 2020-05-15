@@ -8,7 +8,11 @@ import {
   AppGridBlockStyleControllerContainer,
 } from './style';
 
-const AppGridBlockStyleController = ({ block, onBlockStyleChange }) => (
+const AppGridBlockStyleController = ({
+  block,
+  onBlockStyleChange,
+  onAddSubBlock,
+}) => (
   <AppGridBlockStyleControllerContainer>
     <Input
       question={{
@@ -21,12 +25,23 @@ const AppGridBlockStyleController = ({ block, onBlockStyleChange }) => (
         defaultColor: block.style.backgroundColor,
       }}
     />
+    <Button
+      onClick={() =>
+        onAddSubBlock(block, 'header1', {
+          text: 'hello',
+          options: { color: 'red' },
+        })
+      }
+    >
+      Add Content
+    </Button>
   </AppGridBlockStyleControllerContainer>
 );
 
 AppGridBlockStyleController.propTypes = {
   block: PropTypes.any.isRequired,
   onBlockStyleChange: PropTypes.func.isRequired,
+  onAddSubBlock: PropTypes.func.isRequired,
 };
 
 const AppGridMainController = props => {
@@ -51,6 +66,7 @@ const AppGridMainController = props => {
         <AppGridBlockStyleController
           block={userSelect.block}
           onBlockStyleChange={actions.onBlockStyleChange}
+          onAddSubBlock={actions.onAddSubBlock}
         />
       )}
       {JSON.stringify(userSelect.block)}
@@ -63,6 +79,7 @@ AppGridMainController.propTypes = {
   actions: PropTypes.shape({
     onAddBlock: PropTypes.func.isRequired,
     onBlockStyleChange: PropTypes.func.isRequired,
+    onAddSubBlock: PropTypes.func.isRequired,
   }),
 };
 
