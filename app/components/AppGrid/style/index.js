@@ -8,6 +8,7 @@ import {
   BlockItemPositionContainer,
   AppGridControllerContainer,
   AppGridBlockStyleControllerContainer,
+  AppGridItemDroppable,
 } from './Container';
 
 export {
@@ -20,4 +21,5 @@ export {
   BlockItemPositionContainer,
   AppGridControllerContainer,
   AppGridBlockStyleControllerContainer,
+  AppGridItemDroppable,
 };

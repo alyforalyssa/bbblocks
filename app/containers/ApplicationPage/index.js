@@ -57,17 +57,17 @@ export const ApplicationPage = props => {
         <meta name="description" content="Description of ApplicationPage" />
       </Helmet>
       <div style={{ display: 'flex' }}>
-        <AppContainer>
-          <AppGrid {...grid} blocks={blocks} actions={appGridActions} />
-        </AppContainer>
-        <AppControlContainer>
-          <DragAndDropContext onDragEnd={onDragBlockEnd}>
+        <DragAndDropContext onDragEnd={onDragBlockEnd}>
+          <AppContainer>
+            <AppGrid {...grid} blocks={blocks} actions={appGridActions} />
+          </AppContainer>
+          <AppControlContainer>
             <AppGridController
               actions={appGridControllerActions}
               userSelect={userSelect}
             />
-          </DragAndDropContext>
-        </AppControlContainer>
+          </AppControlContainer>
+        </DragAndDropContext>
       </div>
     </div>
   );

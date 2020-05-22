@@ -6,23 +6,40 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Droppable } from 'react-beautiful-dnd';
 
 import {
   AppGridItemContainer,
   AppRowContainer,
-  AppGridItemEmptyContainer,
+  AppGridItemDroppable,
   BlocksGridGuidelines,
 } from './style';
 import { makeArray, isBlockOccupied } from './utils';
 
 const AppGridGuidelinesItem = props => {
   const { blocks, xPosition, yPosition } = props;
-  if (isBlockOccupied({ blocks, xPosition, yPosition })) {
-    return (
-      <AppGridItemEmptyContainer width={props.width} height={props.height} />
-    );
-  }
-  return <AppGridItemContainer width={props.width} height={props.height} />;
+  //   if (isBlockOccupied({ blocks, xPosition, yPosition })) {
+  //     return (
+  //       <AppGridItemEmptyContainer width={props.width} height={props.height} />
+  //     );
+  //   }
+  const droppableId = `x${xPosition},y${yPosition}`;
+  return (
+    <Droppable droppableId={droppableId}>
+      {(provided, snapshot) => (
+        <AppGridItemContainer width={props.width} height={props.height}>
+          <AppGridItemDroppable
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="droppable"
+            isDraggingOver={snapshot.isDraggingOver}
+          >
+            {provided.placeholder}
+          </AppGridItemDroppable>
+        </AppGridItemContainer>
+      )}
+    </Droppable>
+  );
 };
 // x and y position are the item's index on the grid
 AppGridGuidelinesItem.propTypes = {

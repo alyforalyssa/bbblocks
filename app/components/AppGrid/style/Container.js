@@ -59,3 +59,9 @@ export const AppGridBlockStyleControllerContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const AppGridItemDroppable = styled.div`
+  background: ${props =>
+    props.isDraggingOver ? 'rgb(231, 237, 243)' : 'inherit'};
+  height: 100%;
+`;
