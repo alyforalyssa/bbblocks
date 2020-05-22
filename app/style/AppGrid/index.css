@@ -1,0 +1,14 @@
+.block-add-container {
+  display: flex;
+  background: #fff;
+  padding: var(--size-2);
+  border-radius: 9px;
+}
+.block-add-container-image-container {
+  background: var(--bg-gray-100);
+  padding: var(--size-1);
+  border-radius: 9px;
+  height: 100%;
+  width: var(--size-10);
+  overflow: hidden;
+}
