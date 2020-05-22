@@ -59,9 +59,10 @@ export function addSubBlock(block, subBlockType, subBlockProps) {
   };
 }
 
-export function initializeBlockContent(block) {
+export function initializeBlockContent(block, blockProps) {
   return {
     type: INITIALIZE_BLOCK_CONTENT,
     block,
+    blockProps,
   };
 }

@@ -14,6 +14,8 @@ import { compose } from 'redux';
 import { makeSelectUserSelected } from 'containers/User/selectors';
 import { selectBlock } from 'containers/User/actions';
 import AppGrid, { AppGridController } from 'components/AppGrid';
+import DragAndDropContext from 'context/DnD';
+
 import { AppContainer, AppControlContainer } from './style';
 import makeSelectApp, {
   makeSelectGrid,
@@ -37,6 +39,7 @@ export const ApplicationPage = props => {
     onAddSubBlock,
     onBlockStyleChange,
     onInitializeBlockContent,
+    onDragBlockEnd,
   } = props;
   const appGridActions = {
     onSelectBlock,
@@ -58,10 +61,12 @@ export const ApplicationPage = props => {
           <AppGrid {...grid} blocks={blocks} actions={appGridActions} />
         </AppContainer>
         <AppControlContainer>
-          <AppGridController
-            actions={appGridControllerActions}
-            userSelect={userSelect}
-          />
+          <DragAndDropContext onDragEnd={onDragBlockEnd}>
+            <AppGridController
+              actions={appGridControllerActions}
+              userSelect={userSelect}
+            />
+          </DragAndDropContext>
         </AppControlContainer>
       </div>
     </div>
@@ -78,6 +83,7 @@ ApplicationPage.propTypes = {
   onAddSubBlock: PropTypes.func,
   onInitializeBlockContent: PropTypes.func,
   blocks: PropTypes.array,
+  onDragBlockEnd: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -95,7 +101,11 @@ export function mapDispatchToProps(dispatch) {
       dispatch(addSubBlock(block, subBlockType, subBlockProps)),
     onBlockStyleChange: (block, state) =>
       dispatch(changeBlockStyle(block, { [state.id]: state.value })),
-    onInitializeBlockContent: block => dispatch(initializeBlockContent(block)),
+    onInitializeBlockContent: (block, blockProps) =>
+      dispatch(initializeBlockContent(block, blockProps)),
+    onDragBlockEnd: result => {
+      console.log(result);
+    },
   };
 }
 

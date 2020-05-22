@@ -16,10 +16,10 @@ import AppGridGuidelines from './AppGridGuidelines';
 import AppGridController from './AppGridController';
 
 const AppGrid = props => {
-  const { row, column, blocks, actions } = props;
+  const { row, column, blocks, actions, style } = props;
+  const { blockHeight, columnGap, rowGap, width } = style;
   // to change
-  const blockHeight = '300px';
-  const blockWidth = `${100 / column}%`;
+  const blockWidth = `${Math.floor(width / column)}px`;
   const appGridGuidelinesProps = {
     row,
     column,
@@ -37,6 +37,8 @@ const AppGrid = props => {
         column={column}
         blockWidth={blockWidth}
         blockHeight={blockHeight}
+        columnGap={columnGap}
+        rowGap={rowGap}
       >
         {blocks.map(block => (
           <AppBlock block={block} key={block.id} actions={actions} />
@@ -48,6 +50,7 @@ const AppGrid = props => {
 
 AppGrid.propTypes = {
   row: PropTypes.number,
+  style: PropTypes.any,
   column: PropTypes.number,
   blocks: PropTypes.array,
   actions: PropTypes.shape({
@@ -57,14 +60,21 @@ AppGrid.propTypes = {
 };
 
 const AppBlock = props => {
+  const ref = React.useRef(null);
   const { block, actions } = props;
   React.useEffect(() => {
-    actions.onInitializeBlockContent(block);
+    const blockProps = {};
+    if (ref.current) {
+      blockProps.width = ref.current.offsetWidth;
+      blockProps.height = ref.current.offsetHeight;
+    }
+    actions.onInitializeBlockContent(block, blockProps);
   }, []);
   return (
     <BlockItemPositionContainer
       {...block.position}
       backgroundColor={block.style.backgroundColor}
+      ref={ref}
       onClick={() => {
         actions.onSelectBlock(block);
       }}

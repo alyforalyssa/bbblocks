@@ -16,7 +16,7 @@ import { isValidBlock } from './utils';
 
 export const initialState = {
   row: 4,
-  column: 3,
+  column: 12,
   blocks: {
     '1': {
       id: '1',
@@ -42,15 +42,12 @@ export const initialState = {
       content: null,
       canvas: null,
       // style applied to blocks
-      style: {
-        backgroundColor: 'red',
-        borderRadius: 20,
-      },
+      style: {},
     },
   },
   style: {
-    rowGutter: 16,
-    columnGutter: 16,
+    blockHeight: '48px',
+    width: 1260,
     backgroundColor: '#FFFFF',
   },
 };
@@ -109,8 +106,12 @@ const appReducer = (state = initialState, action) =>
         if (action.block.content) {
           // initialize canvas from json object
         } else {
+          console.log(action.blockProps);
           draft.blocks[action.block.id].canvas = new fabric.Canvas(
             action.block.id,
+            {
+              ...action.blockProps,
+            },
           );
         }
         break;

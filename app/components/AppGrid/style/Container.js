@@ -3,9 +3,10 @@ import styled from 'styled-components';
 export const AppGridItemContainer = styled.div`
   width: ${props => props.width || '100%'};
   height: ${props => props.height || '100%'};
-  background-color: ${props => props.backgroundColor || '#eaedf1'};
-  border-radius: ${props => props.borderRadius || '20px'};
-  margin: ${props => props.margin || '16px'};
+  background-color: ${props => props.backgroundColor};
+  border-top: 1px dashed #a4afb3;
+  border-left: 1px dashed #a4afb3;
+  border-bottom: ${props => props.lastRow && '1px dashed #a4afb3'};
 `;
 
 export const AppGridItemEmptyContainer = styled.div`
@@ -27,8 +28,6 @@ export const AppGridContainer = styled.div`
 export const BlocksGrid = styled.div`
   display: grid;
   z-index: 2;
-  column-gap: ${props => props.columnGap || '16px'};
-  row-gap: ${props => props.rowGap || '16px'};
   grid-template-columns: ${props =>
     `repeat(${props.column || '3'}, ${props.blockWidth || '300px'} [col])`};
   grid-template-rows: ${props =>
@@ -48,7 +47,7 @@ export const BlockItemPositionContainer = styled.div`
   grid-row-start: ${props => props.gridrowStart};
   grid-row-end: ${props => props.gridrowEnd};
   background-color: ${props => props.backgroundColor};
-  border-radius: ${props => props.borderRadius || '20px'};
+  border-radius: ${props => props.borderRadius || '4px'};
 `;
 
 export const AppGridControllerContainer = styled.div`

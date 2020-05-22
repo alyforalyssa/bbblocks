@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Draggable, Droppable, DragDropContext } from 'react-beautiful-dnd';
 import { Button } from 'style';
 
 import Input, { IQuestionType } from 'components/Form';
+
+import { allBlocks } from './constants';
 import {
   AppGridControllerContainer,
   AppGridBlockStyleControllerContainer,
@@ -62,6 +65,20 @@ const AppGridMainController = props => {
       >
         Add Block
       </Button>
+      <Droppable droppableId="3">
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="droppable"
+          >
+            {allBlocks.map((b, index) => (
+              <AppBlockDraggable {...b} key={b.id} index={index} />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
       {userSelect.block && (
         <AppGridBlockStyleController
           block={userSelect.block}
@@ -73,7 +90,6 @@ const AppGridMainController = props => {
     </AppGridControllerContainer>
   );
 };
-
 AppGridMainController.propTypes = {
   userSelect: PropTypes.any,
   actions: PropTypes.shape({
@@ -81,6 +97,37 @@ AppGridMainController.propTypes = {
     onBlockStyleChange: PropTypes.func.isRequired,
     onAddSubBlock: PropTypes.func.isRequired,
   }),
+};
+
+const AppBlockDraggable = props => {
+  const { id, index, image, name, description } = props;
+  console.log(props);
+  return (
+    <Draggable draggableId={id} index={index}>
+      {(provided, snapshot) => (
+        <div
+          className="draggable block-add-container"
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          style={provided.draggableProps.style}
+        >
+          <div className="block-add-container-image-container">
+            {image && <img src={image} alt={description} />}
+          </div>
+          <div className="block-add-content">{name}</div>
+        </div>
+      )}
+    </Draggable>
+  );
+};
+
+AppBlockDraggable.propTypes = {
+  id: PropTypes.string,
+  index: PropTypes.number,
+  image: PropTypes.string,
+  name: PropTypes.string,
+  description: PropTypes.string,
 };
 
 export default AppGridMainController;
