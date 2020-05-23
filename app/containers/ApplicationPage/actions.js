@@ -9,6 +9,7 @@ import {
   CHANGE_BLOCK_STYLE,
   ADD_SUBBLOCK,
   INITIALIZE_BLOCK_CONTENT,
+  DRAG_BLOCK_END,
 } from './constants';
 
 /**
@@ -22,6 +23,20 @@ export function addBlock(blockData) {
   return {
     type: ADD_BLOCK,
     blockData,
+  };
+}
+
+/**
+ * On drop blocks into main grid
+ *
+ * @param  {object} result The drag result of block
+ *
+ * @return {object} An action object with a type of DRAG_BLOCK_END
+ */
+export function dragBlockEnd(result) {
+  return {
+    type: DRAG_BLOCK_END,
+    result,
   };
 }
 

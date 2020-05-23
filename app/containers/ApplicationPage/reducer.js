@@ -11,8 +11,10 @@ import {
   CHANGE_BLOCK_STYLE,
   ADD_SUBBLOCK,
   INITIALIZE_BLOCK_CONTENT,
+  DRAG_BLOCK_END,
+  allBlocks,
 } from './constants';
-import { isValidBlock } from './utils';
+import { isValidBlock, getBlockGridPosition } from './utils';
 
 export const initialState = {
   row: 4,
@@ -27,8 +29,9 @@ export const initialState = {
         gridRowEnd: 2,
       },
       // content should be the subblocks of canvas, stored in json
-      content: null,
+      type: null,
       canvas: null,
+      props: {},
       style: {},
     },
     '2': {
@@ -39,8 +42,9 @@ export const initialState = {
         gridRowStart: 1,
         gridRowEnd: 2,
       },
-      content: null,
+      type: null,
       canvas: null,
+      props: {},
       // style applied to blocks
       style: {},
     },
@@ -78,6 +82,38 @@ const appReducer = (state = initialState, action) =>
           };
         }
         break;
+      case DRAG_BLOCK_END: {
+        const { result } = action;
+        // outside of bounds
+        if (!result.destination) {
+          return;
+        }
+        const blockPosition = getBlockGridPosition({
+          draggables: allBlocks,
+          droppableId: result.destination.droppableId,
+          draggableId: result.draggableId,
+        });
+        const templateBlock = allBlocks[result.draggableId];
+        if (
+          isValidBlock({
+            blockData: { ...templateBlock, position: blockPosition },
+            state,
+          })
+        ) {
+          draft.blocks = {
+            ...state.blocks,
+            [result.destination.droppableId]: {
+              id: result.destination.droppableId,
+              position: blockPosition,
+              type: templateBlock.type,
+              props: templateBlock.props,
+              style: templateBlock.style,
+            },
+          };
+          console.log(draft.blocks);
+        }
+        break;
+      }
       case ADD_SUBBLOCK: {
         const subBlock = new fabric.IText(action.subBlockProps.text, {
           ...action.subBlockProps.options,
@@ -106,7 +142,6 @@ const appReducer = (state = initialState, action) =>
         if (action.block.content) {
           // initialize canvas from json object
         } else {
-          console.log(action.blockProps);
           draft.blocks[action.block.id].canvas = new fabric.Canvas(
             action.block.id,
             {
