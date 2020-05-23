@@ -26,3 +26,33 @@ export const isValidBlock = ({ blockData, state }) => {
   );
   return !overlappingBlock;
 };
+
+export const getColumnAndRowFromDroppableId = droppableId => {
+  // droppableId is in the form of "x3,y6"
+  const arr = droppableId.split(',');
+  // slice off x
+  const row = arr[0].slice(1);
+  // slice off y
+  const column = arr[1].slice(1);
+  return {
+    row: parseInt(row, 10),
+    column: parseInt(column, 10),
+  };
+};
+
+export const getBlockGridPosition = ({
+  droppableId,
+  draggableId,
+  draggables,
+}) => {
+  const starts = getColumnAndRowFromDroppableId(droppableId);
+
+  const { props } = draggables[draggableId];
+  const { row, column } = props;
+  return {
+    gridColumnStart: starts.column,
+    gridColumnEnd: starts.column + column,
+    gridRowStart: starts.row,
+    gridRowEnd: starts.row + row,
+  };
+};
