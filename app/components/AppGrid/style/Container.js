@@ -44,8 +44,8 @@ export const BlocksGridGuidelines = styled.div`
 export const BlockItemPositionContainer = styled.div`
   grid-column-start: ${props => props.gridColumnStart};
   grid-column-end: ${props => props.gridColumnEnd};
-  grid-row-start: ${props => props.gridrowStart};
-  grid-row-end: ${props => props.gridrowEnd};
+  grid-row-start: ${props => props.gridRowStart};
+  grid-row-end: ${props => props.gridRowEnd};
   background-color: ${props => props.backgroundColor};
   border-radius: ${props => props.borderRadius || '4px'};
 `;
