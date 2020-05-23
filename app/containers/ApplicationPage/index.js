@@ -26,6 +26,7 @@ import {
   changeBlockStyle,
   addSubBlock,
   initializeBlockContent,
+  dragBlockEnd,
 } from './actions';
 
 export const ApplicationPage = props => {
@@ -103,9 +104,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(changeBlockStyle(block, { [state.id]: state.value })),
     onInitializeBlockContent: (block, blockProps) =>
       dispatch(initializeBlockContent(block, blockProps)),
-    onDragBlockEnd: result => {
-      console.log(result);
-    },
+    onDragBlockEnd: result => dispatch(dragBlockEnd(result)),
   };
 }
 
