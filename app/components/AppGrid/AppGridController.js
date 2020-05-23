@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Draggable, Droppable, DragDropContext } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button } from 'style';
 
 import Input, { IQuestionType } from 'components/Form';
@@ -101,7 +101,6 @@ AppGridMainController.propTypes = {
 
 const AppBlockDraggable = props => {
   const { id, index, image, name, description } = props;
-  console.log(props);
   return (
     <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => (

@@ -13,16 +13,17 @@ import {
   AppRowContainer,
   AppGridItemDroppable,
   BlocksGridGuidelines,
+  AppGridItemEmptyContainer,
 } from './style';
 import { makeArray, isBlockOccupied } from './utils';
 
 const AppGridGuidelinesItem = props => {
   const { blocks, xPosition, yPosition } = props;
-  //   if (isBlockOccupied({ blocks, xPosition, yPosition })) {
-  //     return (
-  //       <AppGridItemEmptyContainer width={props.width} height={props.height} />
-  //     );
-  //   }
+  if (isBlockOccupied({ blocks, xPosition, yPosition })) {
+    return (
+      <AppGridItemEmptyContainer width={props.width} height={props.height} />
+    );
+  }
   const droppableId = `x${xPosition},y${yPosition}`;
   return (
     <Droppable droppableId={droppableId}>
